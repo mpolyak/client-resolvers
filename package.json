@@ -1,0 +1,42 @@
+{
+  "name": "client-resolvers",
+  "version": "0.0.1",
+  "description": "Enable Apollo client-only resolvers for dynamic React components",
+  "main": "lib/index.js",
+  "scripts": {
+    "build": "rollup -c",
+    "test": "mocha"
+  },
+  "author": "Michael Polyak",
+  "license": "MIT",
+  "keywords": [
+    "graphql",
+    "resolvers",
+    "apollo",
+    "apollo-client",
+    "apollo-link-state"
+  ],
+  "devDependencies": {
+    "apollo-cache-inmemory": "^1.1.5",
+    "apollo-client": "^2.2.0",
+    "apollo-link-http": "^1.3.2",
+    "apollo-link-state": "^0.3.1",
+    "babel-core": "^6.26.0",
+    "babel-preset-es2015": "^6.24.1",
+    "graphql": "^0.12.3",
+    "graphql-tag": "^2.6.1",
+    "mocha": "^4.1.0",
+    "prop-types": "^15.6.0",
+    "react-apollo": "^2.0.4",
+    "react-dom": "^16.2.0",
+    "react-graphql": "0.0.3",
+    "react-test-renderer": "^16.2.0",
+    "rollup": "^0.53.4",
+    "rollup-plugin-babel": "^3.0.3",
+    "rollup-plugin-commonjs": "^8.2.6",
+    "rollup-plugin-node-resolve": "^3.0.2"
+  },
+  "dependencies": {
+    "react": "^16.2.0"
+  }
+}
