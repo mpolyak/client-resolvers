@@ -1,5 +1,4 @@
 let _resolvers = {};
-let _clients = new WeakMap();
 let _proxy;
 
 /**
