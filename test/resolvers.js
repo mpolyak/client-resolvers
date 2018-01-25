@@ -13,7 +13,11 @@ const {
 } = require("../src/resolvers.js");
 
 describe("Resolvers", function() {
-    function addAndRemoveResolvers() {
+    beforeEach(function() {
+        clearResolvers();
+    });
+
+    it("add and remove resolvers", function addAndRemoveResolvers() {
         assert.equal(getProxyResolvers()["Test"], undefined);
 
         const resolvers1 = addResolvers({
@@ -57,27 +61,6 @@ describe("Resolvers", function() {
         removeResolvers(resolvers2);
 
         assert.equal(getProxyResolvers()["Test"], undefined);
-    }
-
-    beforeEach(function() {
-        clearResolvers();
-    });
-
-    describe("With native Proxy", function() {
-        it("add and remove resolvers", addAndRemoveResolvers);
-    });
-
-    describe("With setPrototypeOf fallback", function() {
-        before(function() {
-            this.Proxy = global.Proxy;
-            global.Proxy = undefined;
-        });
-
-        after(function() {
-            global.Proxy = this.Proxy;
-        });
-
-        it("add and remove resolvers", addAndRemoveResolvers);
     });
 });
 

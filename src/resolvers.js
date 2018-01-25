@@ -1,30 +1,22 @@
 let _resolvers = {};
-let _proxy;
+let _proxy = {};
 
 /**
- * Emulate native object Proxy mechanism by varying the dynamic resolvers map
- * prototype.
+ * Update dynamic resolver map with currently mounted resolver types and fields.
  *
  * This results in all object references to `_proxy` to have current resolvers
  * appear as object properties.
- *
- * However this mechanism comes at a significant performance cost:
- * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/setPrototypeOf
  */
 function _updateResolversProxy() {
-    if (!_proxy) {
-        _proxy = {};
+    for (let type of Object.keys(_proxy)) {
+        delete _proxy[type];
     }
-
-    let proto = {};
 
     for (let resolvers of Object.values(_resolvers)) {
         for (let type of Object.keys(resolvers)) {
-            proto[type] = Object.assign(proto[type] || {}, resolvers[type]);
+            _proxy[type] = Object.assign(_proxy[type] || {}, resolvers[type]);
         }
     }
-
-    Object.setPrototypeOf(_proxy, proto);
 }
 
 /**
@@ -35,9 +27,7 @@ exports.addResolvers = function(resolvers) {
 
     _resolvers[id] = resolvers;
 
-    if (typeof Proxy !== "function") {
-        _updateResolversProxy();
-    }
+    _updateResolversProxy();
 
     return id;
 };
@@ -48,9 +38,7 @@ exports.addResolvers = function(resolvers) {
 exports.removeResolvers = function(id) {
     delete _resolvers[id];
 
-    if (typeof Proxy !== "function") {
-        _updateResolversProxy();
-    }
+    _updateResolversProxy();
 };
 
 /**
@@ -60,34 +48,12 @@ exports.clearResolvers = function() {
     _resolvers = {};
 
     // Note that this does not clear existing references to dynamic resolvers.
-    _proxy = undefined;
+    _proxy = {};
 };
 
 /**
  * Return a singleton object representing the dynamic resolvers map.
  */
 exports.getProxyResolvers = function() {
-    if (_proxy) {
-        return _proxy;
-    }
-
-    if (typeof Proxy === "function") {
-        _proxy = new Proxy({}, {
-            get(_, type) {
-                let fields;
-
-                for (let resolvers of Object.values(_resolvers)) {
-                    if (resolvers.hasOwnProperty(type)) {
-                        fields = Object.assign(fields || {}, resolvers[type]);
-                    }
-                }
-
-                return fields;
-            }
-        });
-    } else {
-        _proxy = {};
-    }
-
     return _proxy;
 };
