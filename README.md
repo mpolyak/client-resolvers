@@ -6,6 +6,10 @@ When creating an [Apollo Client](https://github.com/apollographql/apollo-client)
 
 This implementation uses the [`Proxy`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy) object, which is not supported by all browsers, with a fallback to [`setPropertyOf`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/setPrototypeOf).
 
+# TODO
+
+- Replace underlying Proxy mechanism in favour of setting and removing field props on `resolvers` object.
+
 # Example
 
 ```
