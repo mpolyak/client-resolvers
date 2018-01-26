@@ -47,8 +47,9 @@ exports.removeResolvers = function(id) {
 exports.clearResolvers = function() {
     _resolvers = {};
 
-    // Note that this does not clear existing references to dynamic resolvers.
-    _proxy = {};
+    for (let type of Object.keys(_proxy)) {
+        delete _proxy[type];
+    }
 };
 
 /**
